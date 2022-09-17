@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import AddPostForm from './Add-post-form';
 import DisplayPost from './Display-Post';
+import Card from 'react-bootstrap/Card';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
 
 class Post extends Component {
     constructor(props) {
@@ -33,11 +36,27 @@ class Post extends Component {
             <div>
                 <AddPostForm data={this.data} />
 
-                {this.state.data.map((item, idx) => {
-                    return (
-                        <DisplayPost key={idx} id={item.id} />
-                    )
-                })}
+              
+
+                <Row xs={1} md={2} className="g-4">
+                    {this.state.data.map((item, idx) => (
+                        <Col>
+                            <Card key={idx} >
+                                <Card.Img variant="top" src={item.img} />
+                                <Card.Body>
+                                    <Card.Title>{item.title}</Card.Title>
+                                    <Card.Text>
+                                        {item.content}
+                                    <DisplayPost id={item.id} />
+                                    </Card.Text>
+                                </Card.Body>
+                            </Card>
+                        </Col>
+                    ))}
+                </Row>
+
+
+
             </div>
         );
     }
