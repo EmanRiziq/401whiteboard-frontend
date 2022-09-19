@@ -16,7 +16,7 @@ class DisplayPost extends Component {
 
     getPostComments = async () => {
         const id = this.props.id
-        const postComments = await axios.get(`http://localhost:3000/getPostComment/${id}`)
+        const postComments = await axios.get(`https://eman-whiteboard.herokuapp.com/getPostComment/${id}`)
         // console.log(postComments.data.comments)
 
         this.setState({

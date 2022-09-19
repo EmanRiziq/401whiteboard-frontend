@@ -28,7 +28,7 @@ class Post extends Component {
     }
 
     deletePost = async (id) => {
-        const deletedData = await axios.delete(`${process.env.REACT_APP_PORT}/post/${id}`)
+        const deletedData = await axios.delete(`https://eman-whiteboard.herokuapp.com/post/${id}`)
         this.getPosts()
     }
 

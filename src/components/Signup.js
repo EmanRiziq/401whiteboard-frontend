@@ -18,7 +18,7 @@ class Signup extends Component {
             password: e.target.password.value
         };
 
-        await axios.post(`${process.env.REACT_APP_PORT}/signup`, data).then(res => {
+        await axios.post('https://eman-whiteboard.herokuapp.com/signup', data).then(res => {
             this.setState({
                 loggedin: true
             })
