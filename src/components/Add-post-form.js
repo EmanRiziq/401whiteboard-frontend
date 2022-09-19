@@ -11,12 +11,12 @@ class AddPostForm extends Component {
         const data = {
             'title': e.target.title.value,
             'content': e.target.content.value,
-            'img': e.target.img.value
+            'img': e.target.img.value||"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0ig2oiZskQ831gT0f-xLQfG2UJR3_2RBL2g&usqp=CAU"
         }
         const res = await axios.post('https://eman-whiteboard.herokuapp.com/post ', data);
         e.target.content.value = ''
         e.target.title.value = ''
-        this.props.data()
+        // this.props.data()
 
     }
 
