@@ -18,7 +18,7 @@ class Signin extends Component {
         };
 
         const encodedCredintial = base64.encode(`${data.username}:${data.password}`);
-        axios.post('https://eman-whiteboard.herokuapp.com//login', {}, {
+        axios.post('https://eman-whiteboard.herokuapp.com/login', {}, {
             headers: {
                 Authorization: `Basic ${encodedCredintial}`
             }
@@ -28,6 +28,7 @@ class Signin extends Component {
                 this.setState({
                     loggedin: true
                 })
+                this.props.isAutherized(true);
             })
             .catch(err => console.log(err));
     }
@@ -37,9 +38,9 @@ class Signin extends Component {
             <div >
                 <When condition={!this.loggedin}>
                     <div>
-                        <h2>Sign in</h2>
+                        <h2> Please Sign in</h2>
                         <form action="" onSubmit={this.handleSubmit}>
-                        <input type="text" placeholder='username' name='username' />
+                            <input type="text" placeholder='username' name='username' />
                             <input type="password" placeholder='password' name='password' />
                             <button type="submit">login</button>
                         </form>

@@ -20,7 +20,7 @@ class Post extends Component {
     }
 
     getPosts = async () => {
-        const postsData = await axios.get(`${process.env.REACT_APP_PORT}/post`);
+        const postsData = await axios.get('https://eman-whiteboard.herokuapp.com/post');
         this.setState
             ({
                 data: postsData.data.posts
@@ -37,10 +37,10 @@ class Post extends Component {
             <div>
                 <AddPostForm data={this.data} />
 
-                <Row xs={1} md={2} className="g-4">
+                <Row xs={1} md={3} className="g-4">
                     {this.state.data.map((item, idx) => (
                         <Col>
-                            <Card key={idx} >
+                            <Card key={idx} border="secondary" >
                                 <Card.Img variant="top" src={item.img} />
                                 <Card.Body>
                                     <Card.Title>{item.title}</Card.Title>

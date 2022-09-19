@@ -13,17 +13,22 @@ class Signup extends Component {
 
     handleSignup = async (e) => {
         e.preventDefault();
-        const data = {
-            userName: e.target.username.value,
-            password: e.target.password.value
-        };
+        if (e.target.password.value === e.target.confirmpassword.value) {
+            const data = {
+                userName: e.target.username.value,
+                password: e.target.password.value
+            };
 
-        await axios.post('https://eman-whiteboard.herokuapp.com/signup', data).then(res => {
-            this.setState({
-                loggedin: true
-            })
-            console.log(res);
-        }).catch(e => console.log(e))
+            await axios.post('https://eman-whiteboard.herokuapp.com/signup', data).then(res => {
+                this.setState({
+                    loggedin: true
+                })
+                console.log(res);
+            }).catch(e => console.log(e))
+        }
+        else {
+            alert('Passwords do not match');
+        }
     }
 
 
@@ -32,11 +37,14 @@ class Signup extends Component {
             <>
                 <When condition={!this.loggedin}>
                     <div>
-                        <h2>Sign up</h2>
+                        <h2> new user?</h2>
+                        <h5>Sign up</h5>
                         <form action="" onSubmit={this.handleSignup}>
                             <input type="text" placeholder='username' name='username' />
                             <input type="text" placeholder='password' name='password' />
-                            <button type="submit">Save</button>
+                            <input type="text" placeholder='confirm password' name='confirmpassword' />
+
+                            <button type="submit">Sign up</button>
                         </form>
                     </div>
                 </When>
