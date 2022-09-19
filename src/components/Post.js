@@ -3,6 +3,7 @@ import axios from 'axios';
 import AddPostForm from './Add-post-form';
 import DisplayPost from './Display-Post';
 import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 
@@ -13,30 +14,28 @@ class Post extends Component {
             data: [],
         }
     }
-    getPosts = async () => {
-        const postsData = await axios.get('http://localhost:3000/post ');
-        // console.log(postsData.data)
-        // console.log(postsData.data.posts)
-        // console.log("-------------------")
 
+    componentDidMount() {
+        this.getPosts();
+    }
+
+    getPosts = async () => {
+        const postsData = await axios.get(`${process.env.REACT_APP_PORT}/post`);
         this.setState
             ({
                 data: postsData.data.posts
             })
     }
 
-    componentDidMount() {
-        // console.log("inside the componentDidMount");
-        this.getPosts();
-        // console.log("data= " + this.state.data.posts)
+    deletePost = async (id) => {
+        const deletedData = await axios.delete(`https://eman-whiteboard.herokuapp.com/post/${id}`)
+        this.getPosts()
     }
 
     render() {
         return (
             <div>
                 <AddPostForm data={this.data} />
-
-              
 
                 <Row xs={1} md={2} className="g-4">
                     {this.state.data.map((item, idx) => (
@@ -47,19 +46,18 @@ class Post extends Component {
                                     <Card.Title>{item.title}</Card.Title>
                                     <Card.Text>
                                         {item.content}
-                                    <DisplayPost id={item.id} />
+                                        <DisplayPost id={item.id} />
                                     </Card.Text>
                                 </Card.Body>
+                                <Button onClick={() => {
+                                    this.deletePost(item.id);
+                                }}>delete post</Button>
                             </Card>
                         </Col>
                     ))}
                 </Row>
-
-
-
             </div>
         );
     }
 }
-
 export default Post;

@@ -13,7 +13,7 @@ class AddPostForm extends Component {
             'content': e.target.content.value,
             'img': e.target.img.value
         }
-        const res = await axios.post('http://localhost:3000/post ', data);
+        const res = await axios.post('https://eman-whiteboard.herokuapp.com/post ', data);
         e.target.content.value = ''
         e.target.title.value = ''
         this.props.data()
@@ -22,7 +22,7 @@ class AddPostForm extends Component {
 
     render() {
         return (
-            <div className='mx-20 gap-8'>
+            <div >
                 <form onSubmit={this.addNewPost}>
                     <label>post Title</label>
                     <input type="text" name='title' required={true} />
