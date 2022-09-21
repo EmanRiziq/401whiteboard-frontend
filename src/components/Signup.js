@@ -17,7 +17,7 @@ class Signup extends Component {
                 userName: e.target.username.value,
                 password: e.target.password.value
             };
-            const URL = 'http://localhost:3000'
+            const URL = process.env.REACT_APP_PORT|| 'https://eman-whiteboard.herokuapp.com'
             // const URL = 'https://eman-whiteboard.herokuapp.com'
             await axios.post(`${URL}/signup`, data).then(res => {
                 cookies.save('token', res.data.token);
