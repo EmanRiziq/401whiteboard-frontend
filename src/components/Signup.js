@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import base64 from 'base-64';
 import { When } from 'react-if';
+import cookies from 'react-cookies';
+
 
 class Signup extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            loggedin: false
-        }
+       
     }
 
     handleSignup = async (e) => {
@@ -18,11 +17,13 @@ class Signup extends Component {
                 userName: e.target.username.value,
                 password: e.target.password.value
             };
-
-            await axios.post('https://eman-whiteboard.herokuapp.com/signup', data).then(res => {
-                this.setState({
-                    loggedin: true
-                })
+            const URL = 'http://localhost:3000'
+            // const URL = 'https://eman-whiteboard.herokuapp.com'
+            await axios.post(`${URL}/signup`, data).then(res => {
+                cookies.save('token', res.data.token);
+                cookies.save('userID', res.data.id);
+                cookies.save('userName', res.data.userName)
+                this.props.isAutherized(true);
                 console.log(res);
             }).catch(e => console.log(e))
         }
@@ -40,10 +41,9 @@ class Signup extends Component {
                         <h2> new user?</h2>
                         <h5>Sign up</h5>
                         <form action="" onSubmit={this.handleSignup}>
-                            <input type="text" placeholder='username' name='username' />
-                            <input type="text" placeholder='password' name='password' />
-                            <input type="text" placeholder='confirm password' name='confirmpassword' />
-
+                            <input type="text" placeholder='username' name='username' required={true} />
+                            <input type="text" placeholder='password' name='password' required={true} />
+                            <input type="text" placeholder='confirm password' name='confirmpassword' required={true} />
                             <button type="submit">Sign up</button>
                         </form>
                     </div>
