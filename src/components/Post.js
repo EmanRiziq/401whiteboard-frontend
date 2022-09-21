@@ -18,9 +18,10 @@ class Post extends Component {
     componentDidMount() {
         this.getPosts();
     }
-
+    // const URL = 'http://localhost:3000'
+    // const URL = 'https://eman-whiteboard.herokuapp.com'
     getPosts = async () => {
-        const postsData = await axios.get('https://eman-whiteboard.herokuapp.com/post');
+        const postsData = await axios.get('http://localhost:3000/post');
         this.setState
             ({
                 data: postsData.data.posts
@@ -28,7 +29,7 @@ class Post extends Component {
     }
 
     deletePost = async (id) => {
-        const deletedData = await axios.delete(`https://eman-whiteboard.herokuapp.com/post/${id}`)
+        const deletedData = await axios.delete(`http://localhost:3000/post/${id}`)
         this.getPosts()
     }
 

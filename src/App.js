@@ -4,7 +4,7 @@ import Signin from './components/Signin';
 import Signup from './components/Signup';
 import React, { Component } from 'react';
 import { When } from 'react-if';
-
+import cookies from 'react-cookies';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -13,15 +13,37 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      autherized: false
+      autherized: false,
+      test:"testtest",
+      userName: ''
     }
   }
 
   isAutherized = (value) => {
-    console.log(this.state.autherized)
     this.setState({ autherized: value })
-    console.log(this.state.autherized)
+  }
 
+  componentDidMount() {
+    const token = cookies.load('token');
+    console.log(cookies.load('userName'))
+    this.setState({
+      userName: cookies.load('userName')
+    })
+    if (token) {
+      this.setState({
+        autherized: true,
+        // userName: cookies.load('userName')
+      })
+    }
+  }
+
+  signOut = () => {
+    cookies.remove('token')
+    cookies.remove('userName')
+    this.setState({
+      autherized: true
+    })
+    window.location.reload(false);
   }
 
   render() {
@@ -33,6 +55,8 @@ class App extends Component {
         </When>
 
         <When condition={this.state.autherized}>
+          <h3> Hello {this.state.userName}</h3>
+          <button onClick={this.signOut}> Sign Out </button>
           <Post />
         </When>
       </div>
