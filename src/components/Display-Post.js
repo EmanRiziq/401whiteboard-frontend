@@ -16,15 +16,15 @@ class DisplayPost extends Component {
 
     getPostComments = async () => {
         const id = this.props.id
-        const postComments = await axios.get(`https://eman-whiteboard.herokuapp.com/getPostComment/${id}`)
+        const URL = process.env.REACT_APP_PORT|| 'https://eman-whiteboard.herokuapp.com'
+        // const URL = 'https://eman-whiteboard.herokuapp.com'
+        const postComments = await axios.get(`${URL}/getPostComment/${id}`)
         // console.log(postComments.data.comments)
 
         this.setState({
             data: postComments.data.comments,
             haveComments: true,
         })
-
-
     }
 
     componentDidMount() {
@@ -38,7 +38,7 @@ class DisplayPost extends Component {
                 {
                     this.state.haveComments &&
                     this.state.data.map((item, idx) => {
-                        return <p key={idx}>{item.content}</p>
+                        return <p key={idx}>{item.content} created by {item.userID}</p>
                     }
                     )
                 }

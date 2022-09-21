@@ -21,7 +21,9 @@ class Post extends Component {
     // const URL = 'http://localhost:3000'
     // const URL = 'https://eman-whiteboard.herokuapp.com'
     getPosts = async () => {
-        const postsData = await axios.get('http://localhost:3000/post');
+        const URL = process.env.REACT_APP_PORT|| 'https://eman-whiteboard.herokuapp.com'
+
+        const postsData = await axios.get(`${URL}/post`);
         this.setState
             ({
                 data: postsData.data.posts
@@ -29,7 +31,9 @@ class Post extends Component {
     }
 
     deletePost = async (id) => {
-        const deletedData = await axios.delete(`http://localhost:3000/post/${id}`)
+        const URL = process.env.REACT_APP_PORT|| 'https://eman-whiteboard.herokuapp.com'
+
+        const deletedData = await axios.delete(`${URL}/post/${id}`)
         this.getPosts()
     }
 
