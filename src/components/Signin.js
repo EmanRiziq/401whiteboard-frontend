@@ -18,13 +18,13 @@ class Signin extends Component {
         const URL = process.env.REACT_APP_PORT|| 'https://eman-whiteboard.herokuapp.com'
         // const URL = 'https://eman-whiteboard.herokuapp.com'
         const encodedCredintial = base64.encode(`${data.username}:${data.password}`);
-        axios.post(`${URL}/login`, {}, {
+        axios.post(`${URL}/signin`, {}, {
             headers: {
                 Authorization: `Basic ${encodedCredintial}`
             }
         })
             .then(res => {
-                console.log(res.data);
+                // console.log(res.data);
                 cookies.save('token', res.data.token);
                 cookies.save('userID', res.data.id);
                 cookies.save('userName', res.data.userName)

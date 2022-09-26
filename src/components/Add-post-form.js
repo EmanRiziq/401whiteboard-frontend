@@ -1,5 +1,7 @@
 import axios from 'axios';
 import React, { Component } from 'react';
+import cookies from 'react-cookies';
+
 
 class AddPostForm extends Component {
     constructor(props) {
@@ -11,9 +13,10 @@ class AddPostForm extends Component {
         const data = {
             'title': e.target.title.value,
             'content': e.target.content.value,
-            'img': e.target.img.value||"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0ig2oiZskQ831gT0f-xLQfG2UJR3_2RBL2g&usqp=CAU"
+            'img': e.target.img.value || "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0ig2oiZskQ831gT0f-xLQfG2UJR3_2RBL2g&usqp=CAU",
+            'userID': parseInt(cookies.load("userID"))
         }
-        const URL = process.env.REACT_APP_PORT|| 'https://eman-whiteboard.herokuapp.com'
+        const URL = process.env.REACT_APP_PORT || 'https://eman-whiteboard.herokuapp.com'
         const res = await axios.post(`${URL}/post`, data);
         e.target.content.value = ''
         e.target.title.value = ''
