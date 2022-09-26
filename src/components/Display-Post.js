@@ -4,6 +4,8 @@ import React, { Component } from 'react';
 import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
+import cookies from 'react-cookies';
+
 
 class DisplayPost extends Component {
     constructor(props) {
@@ -38,7 +40,7 @@ class DisplayPost extends Component {
                 {
                     this.state.haveComments &&
                     this.state.data.map((item, idx) => {
-                        return <p key={idx}>{item.content} created by {item.userID}</p>
+                        return <p key={idx}>{item.content} created by {cookies.load('userName')}</p>
                     }
                     )
                 }

@@ -25,7 +25,7 @@ class App extends Component {
 
   componentDidMount() {
     const token = cookies.load('token');
-    console.log(cookies.load('userName'))
+    // console.log(cookies.load('userName'))
     this.setState({
       userName: cookies.load('userName')
     })
@@ -40,6 +40,7 @@ class App extends Component {
   signOut = () => {
     cookies.remove('token')
     cookies.remove('userName')
+    cookies.remove("userID");
     this.setState({
       autherized: true
     })
