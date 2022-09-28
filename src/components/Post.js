@@ -48,13 +48,7 @@ class Post extends Component {
     }
 
     updatePost = async (id) => {
-        const URL = process.env.REACT_APP_PORT || 'https://eman-whiteboard.herokuapp.com'
-
-        const deletedData = await axios.delete(`${URL}/post/${id}`, {
-            headers: {
-                Authorization: `Bearer ${cookies.load("token")}`,
-            },
-        })
+       
         this.getPosts()
     }
 
