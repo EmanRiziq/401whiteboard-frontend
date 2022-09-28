@@ -6,6 +6,8 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
+import cookies from 'react-cookies';
+
 
 class Post extends Component {
     constructor(props) {
@@ -21,9 +23,13 @@ class Post extends Component {
     // const URL = 'http://localhost:3000'
     // const URL = 'https://eman-whiteboard.herokuapp.com'
     getPosts = async () => {
-        const URL = process.env.REACT_APP_PORT|| 'https://eman-whiteboard.herokuapp.com'
+        const URL = process.env.REACT_APP_PORT || 'https://eman-whiteboard.herokuapp.com'
+        const postsData = await axios.get(`${URL}/post`, {
+            headers: {
+                Authorization: `Bearer ${cookies.load("token")}`,
+            },
+        });
 
-        const postsData = await axios.get(`${URL}/post`);
         this.setState
             ({
                 data: postsData.data.posts
@@ -31,9 +37,24 @@ class Post extends Component {
     }
 
     deletePost = async (id) => {
-        const URL = process.env.REACT_APP_PORT|| 'https://eman-whiteboard.herokuapp.com'
+        const URL = process.env.REACT_APP_PORT || 'https://eman-whiteboard.herokuapp.com'
 
-        const deletedData = await axios.delete(`${URL}/post/${id}`)
+        const deletedData = await axios.delete(`${URL}/post/${id}`, {
+            headers: {
+                Authorization: `Bearer ${cookies.load("token")}`,
+            },
+        })
+        this.getPosts()
+    }
+
+    updatePost = async (id) => {
+        const URL = process.env.REACT_APP_PORT || 'https://eman-whiteboard.herokuapp.com'
+
+        const deletedData = await axios.delete(`${URL}/post/${id}`, {
+            headers: {
+                Authorization: `Bearer ${cookies.load("token")}`,
+            },
+        })
         this.getPosts()
     }
 
@@ -43,8 +64,9 @@ class Post extends Component {
                 <AddPostForm data={this.data} />
 
                 <Row xs={1} md={3} className="g-4">
-                    {this.state.data.map((item, idx) => (
-                        <Col>
+                    <Col>
+                        {this.state.data.map((item, idx) => (
+
                             <Card key={idx} border="secondary" >
                                 <Card.Img variant="top" src={item.img} />
                                 <Card.Body>
@@ -54,12 +76,23 @@ class Post extends Component {
                                         <DisplayPost id={item.id} />
                                     </Card.Text>
                                 </Card.Body>
-                                <Button onClick={() => {
-                                    this.deletePost(item.id);
-                                }}>delete post</Button>
+                                {
+                                    (cookies.load('role')) === 'admin' &&
+                                    <>
+                                        <Button onClick={() => {
+                                            this.deletePost(item.id);
+                                        }}>delete post</Button>
+                                        <Button onClick={() => {
+                                            this.updatePost(item.id);
+                                        }}>Update post</Button>
+                                    </>
+                                }
+
+
                             </Card>
-                        </Col>
-                    ))}
+
+                        ))}
+                    </Col>
                 </Row>
             </div>
         );

@@ -17,7 +17,11 @@ class AddPostForm extends Component {
             'userID': parseInt(cookies.load("userID"))
         }
         const URL = process.env.REACT_APP_PORT || 'https://eman-whiteboard.herokuapp.com'
-        const res = await axios.post(`${URL}/post`, data);
+        const res = await axios.post(`${URL}/post`, data, {
+            headers: {
+                Authorization: `Bearer ${cookies.load("token")}`,
+            },
+        });
         e.target.content.value = ''
         e.target.title.value = ''
         // this.props.data()
