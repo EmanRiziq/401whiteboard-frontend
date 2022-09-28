@@ -25,7 +25,6 @@ class App extends Component {
 
   componentDidMount() {
     const token = cookies.load('token');
-    // console.log(cookies.load('userName'))
     this.setState({
       userName: cookies.load('userName')
     })

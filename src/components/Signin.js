@@ -15,7 +15,7 @@ class Signin extends Component {
             username: e.target.username.value,
             password: e.target.password.value
         };
-        const URL = process.env.REACT_APP_PORT|| 'https://eman-whiteboard.herokuapp.com'
+        const URL = process.env.REACT_APP_PORT//|| 'https://eman-whiteboard.herokuapp.com'
         // const URL = 'https://eman-whiteboard.herokuapp.com'
         const encodedCredintial = base64.encode(`${data.username}:${data.password}`);
         axios.post(`${URL}/signin`, {}, {
@@ -24,10 +24,10 @@ class Signin extends Component {
             }
         })
             .then(res => {
-                // console.log(res.data);
                 cookies.save('token', res.data.token);
                 cookies.save('userID', res.data.id);
-                cookies.save('userName', res.data.userName)
+                cookies.save('userName', res.data.userName);
+                cookies.save('role', res.data.role);
                 this.props.isAutherized(true);
             })
             .catch(err => console.log(err));
@@ -40,8 +40,8 @@ class Signin extends Component {
                 <div>
                     <h2> Please Sign in</h2>
                     <form action="" onSubmit={this.handleSubmit}>
-                        <input type="text" placeholder='username' name='username' required={true}/>
-                        <input type="password" placeholder='password' name='password' required={true}/>
+                        <input type="text" placeholder='username' name='username' required={true} />
+                        <input type="password" placeholder='password' name='password' required={true} />
                         <button type="submit">Sign in</button>
                     </form>
                 </div>
