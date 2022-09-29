@@ -47,11 +47,6 @@ class DisplayPost extends Component {
                     }
                     )
                 }
-
-                {/* <form onSubmit={deletePost} id={post?.id} className='mt-3'>
-                    <button className='text-xl'><AiFillDelete className='h-6 w-fit border-2 m-2 rounded-full bg-slate-500 text-white border-white hover:bg-white hover:text-slate-500' /></button>
-                </form> */}
-
             </>
         );
     }

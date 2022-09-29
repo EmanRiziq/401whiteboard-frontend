@@ -13,14 +13,14 @@ class Signup extends Component {
 
     }
     onChangeValue = (event) => {
-console.log(event.target.value)
+        // console.log(event.target.value)
         this.setState({
             roletype: event.target.value
         })
     }
     handleSignup = async (e) => {
         e.preventDefault();
-        console.log(this.state.roletype)
+        // console.log(this.state.roletype)
         if (e.target.password.value === e.target.confirmpassword.value) {
             const data = {
                 userName: e.target.username.value,
