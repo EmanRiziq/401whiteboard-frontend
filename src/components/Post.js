@@ -7,6 +7,7 @@ import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import cookies from 'react-cookies';
+import Editpost from './Edit-post-form';
 
 
 class Post extends Component {
@@ -14,6 +15,8 @@ class Post extends Component {
         super(props);
         this.state = {
             data: [],
+            showModal: false,
+            selectedPost: null
         }
     }
 
@@ -44,18 +47,50 @@ class Post extends Component {
                 Authorization: `Bearer ${cookies.load("token")}`,
             },
         })
+        alert('Post deleted');
+
         this.getPosts()
     }
 
-    updatePost = async (id) => {
-       
+
+    handleClose = () => {
+        this.setState({ showModal: false })
+    }
+
+
+
+    editPost = (id) => {
+        this.setState({
+            selectedPost: id,
+            showModal: true
+
+        })
+        this.getPosts()
+    }
+    handleEdit = async (e) => {
+        const URL = process.env.REACT_APP_PORT || 'https://eman-whiteboard.herokuapp.com'
+        const id = this.state.selectedPost
+        // console.log('title ', e.target.title.value)
+        // console.log('content ', e.target.content.value)
+        // console.log('img ', e.target.img.value)
+        const data = {
+            'title': e.target.title.value,
+            'content': e.target.content.value,
+            'img': e.target.img.value || "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0ig2oiZskQ831gT0f-xLQfG2UJR3_2RBL2g&usqp=CAU"
+        }
+        const updatedData = await axios.put(`${URL}/post/${id}`, data, {
+            headers: {
+                Authorization: `Bearer ${cookies.load("token")}`,
+            },
+        })
         this.getPosts()
     }
 
     render() {
         return (
             <div>
-                <AddPostForm data={this.data} />
+                <AddPostForm data={this.data} getPosts={this.getPosts}
+                />
 
                 <Row xs={1} md={3} className="g-4">
                     <Col>
@@ -77,14 +112,12 @@ class Post extends Component {
                                             this.deletePost(item.id);
                                         }}>delete post</Button>
                                         <Button onClick={() => {
-                                            this.updatePost(item.id);
-                                        }}>Update post</Button>
+                                            this.editPost(item.id);
+                                        }}>Edit post</Button>
+                                        <Editpost show={this.state.showModal} handleClose={this.handleClose} handleEdit={this.handleEdit} selectedPost={this.state.selectedPost} />
                                     </>
                                 }
-
-
                             </Card>
-
                         ))}
                     </Col>
                 </Row>

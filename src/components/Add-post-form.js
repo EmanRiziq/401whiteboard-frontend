@@ -22,8 +22,12 @@ class AddPostForm extends Component {
                 Authorization: `Bearer ${cookies.load("token")}`,
             },
         });
+        alert('new Post created');
+        this.props.getPosts()
+
         e.target.content.value = ''
         e.target.title.value = ''
+        e.target.img.value = ''
         // this.props.data()
 
     }
@@ -39,7 +43,7 @@ class AddPostForm extends Component {
                     <label>Image</label>
                     <input type="text" name='img' />
                     <div className='flex justify-center gap-16 '>
-                        <button >post</button>
+                        <button >Add post</button>
                     </div>
                 </form>
             </div>

@@ -45,7 +45,6 @@ class Signin extends Component {
                         <button type="submit">Sign in</button>
                     </form>
                 </div>
-                {/* <h1>Hello I am authorized</h1> */}
             </div>
         );
     }
