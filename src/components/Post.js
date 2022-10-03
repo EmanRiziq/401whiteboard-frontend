@@ -46,52 +46,53 @@ function Post() {
         console.log(data)
     }
 
-    const deletePost = async (id) => {
-        const URL = process.env.REACT_APP_PORT || 'https://eman-whiteboard.herokuapp.com'
+    // const deletePost = async (id) => {
+    //     const URL = process.env.REACT_APP_PORT || 'https://eman-whiteboard.herokuapp.com'
 
-        const deletedData = await axios.delete(`${URL}/post/${id}`, {
-            headers: {
-                Authorization: `Bearer ${user.token}`,
-            },
-        })
-        alert('Post deleted');
+    //     const deletedData = await axios.delete(`${URL}/post/${id}`, {
+    //         headers: {
+    //             Authorization: `Bearer ${user.token}`,
+    //         },
+    //     })
+    //     alert('Post deleted');
 
-        getPosts()
-    }
-
-
-    const handleClose = () => {
-        // this.setState({ showModal: false })
-    }
+    //     getPosts()
+    // }
 
 
+    // const handleClose = () => {
+    //     // this.setState({ showModal: false })
+    // }
 
-    const editPost = (id) => {
-        // this.setState({
-        //     selectedPost: id,
-        //     showModal: true
 
-        // })
-        getPosts()
-    }
-    const handleEdit = async (e) => {
-        const URL = process.env.REACT_APP_PORT || 'https://eman-whiteboard.herokuapp.com'
-        // const id = this.state.selectedPost
-        // console.log('title ', e.target.title.value)
-        // console.log('content ', e.target.content.value)
-        // console.log('img ', e.target.img.value)
-        const data = {
-            'title': e.target.title.value,
-            'content': e.target.content.value,
-            'img': e.target.img.value || "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0ig2oiZskQ831gT0f-xLQfG2UJR3_2RBL2g&usqp=CAU"
-        }
-        // const updatedData = await axios.put(`${URL}/post/${id}`, data, {
-        //     headers: {
-        //         Authorization: `Bearer ${user.token}`,
-        //     },
-        // })
-        this.getPosts()
-    }
+
+    // const editPost = (id) => {
+    //     // this.setState({
+    //     //     selectedPost: id,
+    //     //     showModal: true
+
+    //     // })
+    //     getPosts()
+    // }
+    
+    // const handleEdit = async (e) => {
+    //     const URL = process.env.REACT_APP_PORT || 'https://eman-whiteboard.herokuapp.com'
+    //     // const id = this.state.selectedPost
+    //     // console.log('title ', e.target.title.value)
+    //     // console.log('content ', e.target.content.value)
+    //     // console.log('img ', e.target.img.value)
+    //     const data = {
+    //         'title': e.target.title.value,
+    //         'content': e.target.content.value,
+    //         'img': e.target.img.value || "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0ig2oiZskQ831gT0f-xLQfG2UJR3_2RBL2g&usqp=CAU"
+    //     }
+    //     // const updatedData = await axios.put(`${URL}/post/${id}`, data, {
+    //     //     headers: {
+    //     //         Authorization: `Bearer ${user.token}`,
+    //     //     },
+    //     // })
+    //     this.getPosts()
+    // }
 
     return (
         <div>

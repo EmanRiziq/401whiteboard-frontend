@@ -4,7 +4,7 @@ import Signup from './Signup';
 import Post from './Post';
 import { useAuth } from '../Context/AuthContext';
 import { When } from 'react-if';
-import { useEffect,useContext } from 'react';
+import { useEffect } from 'react';
 
 function Auth(props) {
     const { user, autherized,isAutherized, handelSignOut } = useAuth();
@@ -13,7 +13,7 @@ function Auth(props) {
         if (user.token) {
             isAutherized(true);
         }
-    },[]);
+    });
 
     return (
             <div>
