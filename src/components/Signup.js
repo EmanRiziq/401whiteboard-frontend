@@ -1,19 +1,18 @@
 import React, { useState } from 'react';
 // import axios from 'axios';
-import { When } from 'react-if';
 // import cookies from 'react-cookies';
 import { useAuth } from '../Context/AuthContext';
 
 
 
 function Signup() {
-    const [roletype, setroletype] = useState("")
+    // const [roletype, setroletype] = useState("")
 
-    const { autherized, handleSignup } = useAuth();
+    const { handleSignup } = useAuth();
 
 
     const onChangeValue = (event) => {
-        setroletype({ roletype: event.target.value })
+        // setroletype({ roletype: event.target.value })
     }
 
     return (

@@ -4,9 +4,7 @@ import cookies from 'react-cookies';
 
 
 class AddPostForm extends Component {
-    constructor(props) {
-        super(props);
-    }
+   
 
     addNewPost = async (e) => {
         e.preventDefault()
@@ -17,7 +15,7 @@ class AddPostForm extends Component {
             'userID': parseInt(cookies.load("userID"))
         }
         const URL = process.env.REACT_APP_PORT || 'https://eman-whiteboard.herokuapp.com'
-        const res = await axios.post(`${URL}/post`, data, {
+         await axios.post(`${URL}/post`, data, {
             headers: {
                 Authorization: `Bearer ${cookies.load("token")}`,
             },
