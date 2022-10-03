@@ -1,53 +1,27 @@
-import React, { Component } from 'react';
-import axios from "axios";
-import base64 from "base-64";
-import cookies from 'react-cookies';
+import React from 'react';
+import { useAuth } from '../Context/AuthContext';
+import { When } from 'react-if';
 
+function Signin() {
 
-class Signin extends Component {
-    constructor(props) {
-        super(props);
+    const { handleSignin } = useAuth();
 
-    }
-    handleSubmit = (e) => {
-        e.preventDefault();
-        const data = {
-            username: e.target.username.value,
-            password: e.target.password.value
-        };
-        const URL = process.env.REACT_APP_PORT//|| 'https://eman-whiteboard.herokuapp.com'
-        // const URL = 'https://eman-whiteboard.herokuapp.com'
-        const encodedCredintial = base64.encode(`${data.username}:${data.password}`);
-        axios.post(`${URL}/signin`, {}, {
-            headers: {
-                Authorization: `Basic ${encodedCredintial}`
-            }
-        })
-            .then(res => {
-                cookies.save('token', res.data.token);
-                cookies.save('userID', res.data.id);
-                cookies.save('userName', res.data.userName);
-                cookies.save('role', res.data.role);
-                this.props.isAutherized(true);
-            })
-            .catch(err => console.log(err));
-    }
-
-
-    render() {
-        return (
-            <div >
-                <div>
-                    <h2> Please Sign in</h2>
-                    <form action="" onSubmit={this.handleSubmit}>
-                        <input type="text" placeholder='username' name='username' required={true} />
-                        <input type="password" placeholder='password' name='password' required={true} />
-                        <button type="submit">Sign in</button>
-                    </form>
-                </div>
+    return (
+        <>
+            <div>
+                <h2> Please Sign in</h2>
+                <form action="" onSubmit={handleSignin}>
+                    <input type="text" placeholder='username' name='username' required={true} />
+                    <input type="password" placeholder='password' name='password' required={true} />
+                    <button type="submit">Sign in</button>
+                </form>
             </div>
-        );
-    }
+            {/* <When condition={autherized}>
+                <h1>Hello I am authorized sign in</h1>
+            </When> */}
+        </>
+
+    );
 }
 
 export default Signin;
