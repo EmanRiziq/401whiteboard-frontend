@@ -9,13 +9,7 @@ const AuthContext = createContext();
 export const useAuth = () => useContext(AuthContext);
 
 const AuthContextProvider = props => {
-    const [user, setUser] = useState({
-        token: '',
-        userID: 0,
-        userName: '',
-        role: ''
-    });
-
+    const [user, setUser] = useState({  });
     const [autherized, setAutherized] = useState((cookies.load("token")?true:false))
     const isAutherized = (authValue) => {
         setAutherized({ autherized: authValue })
@@ -40,7 +34,8 @@ const AuthContextProvider = props => {
                     token: res.data.token,
                     userID: res.data.id,
                     userName: res.data.userName,
-                    role: res.data.role
+                    role: res.data.role,
+                    capabilities:res.data.capabilities
                 })
                 setAutherized({ autherized: true })
                 console.log("signed up")
@@ -69,12 +64,11 @@ const AuthContextProvider = props => {
                 cookies.save('userID', res.data.id);
                 cookies.save('userName', res.data.userName);
                 cookies.save('role', res.data.role);
-                setUser({
-                    token: res.data.token,
-                    userID: res.data.id,
-                    userName: res.data.userName,
-                    role: res.data.role
-                })
+                cookies.save('capabilities', res.data.capabilities);
+
+                setUser(
+                   res.data
+                )
                 setAutherized({ autherized: true })
             })
             .catch(err => console.log(err));
@@ -85,6 +79,8 @@ const AuthContextProvider = props => {
         cookies.remove('userName')
         cookies.remove("userID");
         cookies.remove("role")
+        cookies.remove('capabilities');
+
         setUser({
             token: '',
             userID: 0,
@@ -95,7 +91,14 @@ const AuthContextProvider = props => {
         window.location.reload(false);
     }
 
-    const value = { user, autherized, isAutherized, handleSignup, handleSignin, handelSignOut };
+    const canDo = ( role, ownerId ) => {
+        if ( cookies.load("capabilities").includes( role ) || parseInt( cookies.load("userID") ) === ownerId ) {
+            return true;
+        } else {
+            return false;
+        }
+    };
+    const value = { user, autherized, isAutherized, handleSignup, handleSignin, handelSignOut,canDo };
 
     return (
         <AuthContext.Provider value={value}>
