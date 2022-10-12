@@ -17,7 +17,7 @@ function Post() {
 
     useEffect(() => {
         getPosts();
-        console.log(posts)
+        // console.log(posts)
     }, []
     );
 
