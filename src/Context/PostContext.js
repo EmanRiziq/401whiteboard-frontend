@@ -13,6 +13,8 @@ const PostContextProvider = (props) => {
     const [posts, setPosts] = useState([]);
     const [editMode, setEditMode] = useState(false);
     const [selectedPost, setSelectedPost] = useState();
+    const [obj, setObj] = useState({})
+
 
     const getPosts = async () => {
         const URL = process.env.REACT_APP_PORT || 'https://eman-whiteboard.herokuapp.com'
@@ -51,7 +53,7 @@ const PostContextProvider = (props) => {
     const handleEdit = async (e) => {
         e.preventDefault();
         const URL = process.env.REACT_APP_PORT || 'https://eman-whiteboard.herokuapp.com'
-        // console.log(e)
+        console.log(obj)
         // console.log(URL)
 
         // console.log(obj)
@@ -73,7 +75,7 @@ const PostContextProvider = (props) => {
 
 
 
-    const value = { posts, getPosts, deletePost, handleEdit, setEditMode, editMode, selectedPost, setSelectedPost };
+    const value = { posts, getPosts, deletePost, handleEdit, setEditMode, editMode, selectedPost, setSelectedPost ,setObj};
 
     return (
         <PostContext.Provider value={value}>

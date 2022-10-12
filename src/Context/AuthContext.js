@@ -1,7 +1,12 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState ,useReducer} from "react";
 import axios from "axios";
 import base64 from "base-64";
 import cookies from 'react-cookies';
+import { login, logoutHandler } from "../actions/authActions";
+import { AuthReducer } from "../reducers/authReducer";
+import { initialState } from "../config/initials";
+
+
 
 
 const AuthContext = createContext();
@@ -9,12 +14,13 @@ const AuthContext = createContext();
 export const useAuth = () => useContext(AuthContext);
 
 const AuthContextProvider = props => {
-    const [user, setUser] = useState({  });
-    const [autherized, setAutherized] = useState((cookies.load("token")?true:false))
+    const [autherized, setAutherized] = useState((cookies.load("token") ? true : false))
     const isAutherized = (authValue) => {
         setAutherized({ autherized: authValue })
 
     }
+    // const [user, setUser] = useState({});
+    const [user, dispatch] = useReducer(AuthReducer, initialState)
 
     const handleSignup = async (e) => {
         e.preventDefault();
@@ -30,13 +36,13 @@ const AuthContextProvider = props => {
                 cookies.save('userID', res.data.id);
                 cookies.save('userName', res.data.userName);
                 cookies.save('role', res.data.role);
-                setUser({
-                    token: res.data.token,
-                    userID: res.data.id,
-                    userName: res.data.userName,
-                    role: res.data.role,
-                    capabilities:res.data.capabilities
-                })
+                // setUser({
+                //     token: res.data.token,
+                //     userID: res.data.id,
+                //     userName: res.data.userName,
+                //     role: res.data.role,
+                //     capabilities: res.data.capabilities
+                // })
                 setAutherized({ autherized: true })
                 console.log("signed up")
             }).catch(e => console.log(e))
@@ -54,24 +60,8 @@ const AuthContextProvider = props => {
         };
         const URL = process.env.REACT_APP_PORT || 'https://eman-whiteboard.herokuapp.com'
         const encodedCredintial = base64.encode(`${data.username}:${data.password}`);
-        axios.post(`${URL}/signin`, {}, {
-            headers: {
-                Authorization: `Basic ${encodedCredintial}`
-            }
-        })
-            .then(res => {
-                cookies.save('token', res.data.token);
-                cookies.save('userID', res.data.id);
-                cookies.save('userName', res.data.userName);
-                cookies.save('role', res.data.role);
-                cookies.save('capabilities', res.data.capabilities);
-
-                setUser(
-                   res.data
-                )
-                setAutherized({ autherized: true })
-            })
-            .catch(err => console.log(err));
+        login(dispatch, encodedCredintial);
+        console.log(user)
     }
 
     const handelSignOut = () => {
@@ -81,24 +71,24 @@ const AuthContextProvider = props => {
         cookies.remove("role")
         cookies.remove('capabilities');
 
-        setUser({
-            token: '',
-            userID: 0,
-            userName: '',
-            role: ''
-        })
+        // setUser({
+        //     token: '',
+        //     userID: 0,
+        //     userName: '',
+        //     role: ''
+        // })
         setAutherized({ autherized: false })
         window.location.reload(false);
     }
 
-    const canDo = ( role, ownerId ) => {
-        if ( cookies.load("capabilities").includes( role ) || parseInt( cookies.load("userID") ) === ownerId ) {
+    const canDo = (role, ownerId) => {
+        if (cookies.load("capabilities").includes(role) || parseInt(cookies.load("userID")) === ownerId) {
             return true;
         } else {
             return false;
         }
     };
-    const value = { user, autherized, isAutherized, handleSignup, handleSignin, handelSignOut,canDo };
+    const value = { user, autherized, isAutherized, handleSignup, handleSignin, handelSignOut, canDo };
 
     return (
         <AuthContext.Provider value={value}>
