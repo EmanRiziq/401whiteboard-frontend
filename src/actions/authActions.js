@@ -3,16 +3,17 @@ import { actionType } from "../config/constant";
 import cookies from 'react-cookies';
 
 
+
 export const login = (dispatch, payload) => {
     try {
         dispatch({ type: actionType.REQUEST_LOGIN })
-        console.log(payload);
+        // console.log("ttttttt",payload);
+        const URL = process.env.REACT_APP_PORT || 'https://eman-whiteboard.herokuapp.com'
         const temp = axios.post(`${URL}/signin`, {}, {
             headers: {
                 Authorization: `Basic ${payload}`
             }
         })
-        console.log('temp ', temp)
             .then(res => {
                 dispatch({ type: actionType.LOGIN_SUCCESS, payload: res.data });
                 cookies.save('token', res.data.token);
@@ -26,11 +27,4 @@ export const login = (dispatch, payload) => {
     } catch (e) {
         dispatch({ type: actionType.LOGIN_FAILED, payload: e });
     }
-}
-
-
-export const logoutHandler = (dispatch) => {
-    localStorage.removeItem('currentUser');
-    localStorage.removeItem('token');
-    dispatch({ type: actionType.LOGOUT });
 }
