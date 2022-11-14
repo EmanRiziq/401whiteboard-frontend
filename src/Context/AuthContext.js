@@ -1,4 +1,4 @@
-import { createContext, useContext, useState ,useReducer} from "react";
+import { createContext, useContext, useState, useReducer } from "react";
 import axios from "axios";
 import base64 from "base-64";
 import cookies from 'react-cookies';
@@ -51,17 +51,22 @@ const AuthContextProvider = props => {
             alert('Passwords do not match');
         }
     }
-
-    const handleSignin = (e) => {
-        e.preventDefault();
+    const handleSignin = (name,password) => {
+        console.log(name,password)
         const data = {
-            username: e.target.username.value,
-            password: e.target.password.value
+            username: name,
+            password: password
+            // username: e.target.username.value,
+            // password: e.target.password.value
         };
         const URL = process.env.REACT_APP_PORT || 'https://eman-whiteboard.herokuapp.com'
         const encodedCredintial = base64.encode(`${data.username}:${data.password}`);
+
         login(dispatch, encodedCredintial);
+        console.log(autherized);
+        console.log("test")
         console.log(user)
+        console.log("test")
     }
 
     const handelSignOut = () => {
@@ -82,6 +87,7 @@ const AuthContextProvider = props => {
     }
 
     const canDo = (role, ownerId) => {
+        console.log(cookies.load("capabilities"), cookies.load("role"))
         if (cookies.load("capabilities").includes(role) || parseInt(cookies.load("userID")) === ownerId) {
             return true;
         } else {
