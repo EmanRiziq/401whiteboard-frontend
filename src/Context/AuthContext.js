@@ -22,14 +22,17 @@ const AuthContextProvider = props => {
     // const [user, setUser] = useState({});
     const [user, dispatch] = useReducer(AuthReducer, initialState)
 
-    const handleSignup = async (e) => {
-        e.preventDefault();
-        if (e.target.password.value === e.target.confirmpassword.value) {
+    const handleSignup = async (name,password,confirmPassword,role) => {
+        if (password === confirmPassword) {
             const data = {
-                userName: e.target.username.value,
-                password: e.target.password.value,
-                role: e.target.role.value
+                    userName: name,
+                password: password,
+                role: role
+                // userName: e.target.username.value,
+                // password: e.target.password.value,
+                // role: e.target.role.value
             };
+            console.log(data)
             const URL = process.env.REACT_APP_PORT || 'https://eman-whiteboard.herokuapp.com'
             await axios.post(`${URL}/signup`, data).then(res => {
                 cookies.save('token', res.data.token);
@@ -63,10 +66,6 @@ const AuthContextProvider = props => {
         const encodedCredintial = base64.encode(`${data.username}:${data.password}`);
 
         login(dispatch, encodedCredintial);
-        console.log(autherized);
-        console.log("test")
-        console.log(user)
-        console.log("test")
     }
 
     const handelSignOut = () => {
@@ -87,7 +86,7 @@ const AuthContextProvider = props => {
     }
 
     const canDo = (role, ownerId) => {
-        console.log(cookies.load("capabilities"), cookies.load("role"))
+        // console.log(cookies.load("capabilities"), cookies.load("role"))
         if (cookies.load("capabilities").includes(role) || parseInt(cookies.load("userID")) === ownerId) {
             return true;
         } else {
