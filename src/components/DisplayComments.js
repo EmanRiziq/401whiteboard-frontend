@@ -7,7 +7,7 @@ import React, { Component } from 'react';
 import cookies from 'react-cookies';
 
 
-class DisplayPost extends Component {
+class DisplayComments extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -30,6 +30,7 @@ class DisplayPost extends Component {
             data: postComments.data.comments,
             haveComments: true,
         })
+        console.log(postComments.data.comments.length);
     }
 
     componentDidMount() {
@@ -52,6 +53,6 @@ class DisplayPost extends Component {
     }
 }
 
-export default DisplayPost;
+export default DisplayComments;
 
 

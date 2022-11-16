@@ -1,115 +1,86 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import cookies from 'react-cookies';
+import React, {  useEffect } from 'react';
 import AddPostForm from './Add-post-form';
-import DisplayPost from './Display-Post';
-import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button';
-import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/Row';
+import DisplayComments from './DisplayComments';
 import EditPost from './EditPost';
 import { useAuth } from '../Context/AuthContext';
 import { usePost } from '../Context/PostContext'
+
+
 import {
-    Accordion,
-    AccordionItem,
-    AccordionButton,
-    AccordionPanel,
-    AccordionIcon,
-    Box
-  } from '@chakra-ui/react'
+    Card,
+    CardBody,
+    CardFooter,
+    Image,
+    Stack,
+    Heading,
+    Text,
+    ButtonGroup,
+    Button,
+    Divider
+} from '@chakra-ui/react'
 
 
 function Post() {
-    const { user, canDo } = useAuth();
+    const {  canDo } = useAuth();
     const { posts, getPosts, deletePost, setEditMode, editMode, setSelectedPost } = usePost()
 
     useEffect(() => {
         getPosts();
-        // console.log(posts)
     }, []
     );
-
     return (
         <div>
             <AddPostForm posts={posts} getPosts={getPosts} />
+            {posts &&
+                <>
+                    {
+                        posts.map((item, idx) => (
+                            <Card key={idx} maxW='sm' bg="authColor.100">
+                                <CardBody bg="authColor.100">
+                                    <Image
+                                        src={item.img}
+                                        // alt='Green double couch with wooden legs'
+                                        borderRadius='lg'
+                                    />
+                                    <Stack mt='6' spacing='3' bg="authColor.200">>
+                                        <Heading size='md'>{item.title}</Heading>
+                                        <Text>
+                                            {item.content}
+                                            <DisplayComments id={item.id} />
+                                        </Text>
+                                    </Stack>
+                                </CardBody>
+                                <Divider />
+                                <CardFooter>
+                                    <ButtonGroup spacing='2'>
+                                        {canDo('update', item.userID) === true ?
+                                            <Button variant='solid' colorScheme='blue' onClick={() => {
+                                                setEditMode(true);
+                                                setSelectedPost(item)
+                                            }} >
+                                                Edit Post
+                                            </Button>
+                                            : null}
+                                        {canDo('delete', item.userID) === true ?
 
-            <Accordion allowToggle>
-                {posts && posts.map((item, idx) => {
-                    <p> {item.title}</p>
-                    // <AccordionItem>
-                    //     <h2>
-                    //         <AccordionButton>
-                    //             <Box flex='1' textAlign='left'>
-                    //                 {item.title}
-                    //             </Box>
-                    //             <AccordionIcon />
-                    //         </AccordionButton>
-                    //     </h2>
-                    //     <AccordionPanel pb={4}>
-                    //         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                    //     </AccordionPanel>
-                    // </AccordionItem>
-                })}
-                <AccordionItem>
-                        <h2>
-                            <AccordionButton>
-                                <Box flex='1' textAlign='left'>
-                                    item.title
-                                </Box>
-                                <AccordionIcon />
-                            </AccordionButton>
-                        </h2>
-                        <AccordionPanel pb={4}>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                        </AccordionPanel>
-                    </AccordionItem>
-            </Accordion>
+                                            <Button variant='ghost' colorScheme='blue' onClick={() => {
+                                                deletePost(item.id);
+                                            }}>
+                                                Delete Post
+                                            </Button>
+                                            : null}
+
+                                    </ButtonGroup>
+                                </CardFooter>
+                                {editMode &&
+                                            <EditPost selectedPost={item.id} />}
+                            </Card>
+                        ))
+                    }
+                </>
+            }
         </div>
-    );
+    )
 }
 export default Post;
 
-            // <Row xs={1} md={3} className="g-4">
-            //     <Col>
-            //         {posts &&
-            //             <>
-            //                 {
-            //                     posts.map((item, idx) => (
-            //                         <Card key={idx} border="secondary" >
-            //                             <Card.Img variant="top" src={item.img} />
-            //                             <Card.Body>
-            //                                 <Card.Title>{item.title}</Card.Title>
-            //                                 <Card.Text>
-            //                                     {item.content}
-            //                                     <DisplayPost id={item.id} />
-            //                                 </Card.Text>
-            //                             </Card.Body>
-
-            //                             <>
-
-            //                                 {canDo('update',  item.userID ) === true ?
-            //                                     <Button onClick={() => {
-            //                                         setEditMode(true);
-            //                                         setSelectedPost(item)
-            //                                     }}>Edit post</Button>
-            //                                     : null}
-            //                                 {canDo('delete', item.userID) === true ?
-            //                                     <Button onClick={() => {
-            //                                         deletePost(item.id);
-            //                                     }}>delete post</Button>
-            //                                 :null}
-            //                             </>
-
-
-
-            //                             {editMode &&
-            //                                 <EditPost selectedPost={item.id} />}
-            //                         </Card>
-            //                     ))
-            //                 }
-            //             </>}
-
-
-            //     </Col>
-            // </Row>

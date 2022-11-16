@@ -1,7 +1,7 @@
 import {actionType} from '../config/constant';
 
 export const AuthReducer = (state, action) => {
-  console.log('inside reducer')
+  // console.log('inside reducer')
   switch (action.type) {
     case actionType.REQUEST_LOGIN:
       return {

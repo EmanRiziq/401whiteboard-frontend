@@ -40,8 +40,8 @@ function Signin() {
                     justifyContent="center"
                     alignItems="center"
                 >
-                    <Avatar bg="teal.500" />
-                    <Heading color="teal.400">Welcome</Heading>
+                    <Avatar bg="authColor.300" />
+                    <Heading color="authColor.400">Welcome</Heading>
                     <Box minW={{ base: "90%", md: "468px" }}>
                         <form action="" onSubmit={handleSubmit}>
                             <Stack
@@ -83,8 +83,9 @@ function Signin() {
                                 <Button
                                     borderRadius={0}
                                     type="submit"
-                                    variant="solid"
-                                    colorScheme="teal"
+                                    // variant="solid"
+                                    variant={['sm', 'md', 'lg']}
+                                    bg="authColor.200 "
                                     width="full"
                                 >
                                     Signin
