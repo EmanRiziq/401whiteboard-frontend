@@ -1,5 +1,5 @@
 import React from 'react'
-import { REQUEST_LOGIN, LOGIN_SUCCESS,LOGIN_FAILED,LOGOUT ,selectAuth } from './counterSlicer';
+import { REQUEST_LOGIN, LOGIN_SUCCESS,LOGIN_FAILED,LOGOUT ,selectAuth } from './authSlicer';
 import { useDispatch, useSelector } from 'react-redux';
 
 
